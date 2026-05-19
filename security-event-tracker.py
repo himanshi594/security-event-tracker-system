@@ -1,4 +1,5 @@
 events=[]
+from datetime import datetime
 
 def add_event():
     print("1.Login_failed")
@@ -11,13 +12,17 @@ def add_event():
         name="Login_failed"
         severity="HIGH"
 
-    if choice=="2":
+
+    elif choice=="2":
         name="USB_connected"
         severity="LOW"
         
-    if choice=="3":
+    elif choice=="3":
         name="Files_deleted"
         severity="HIGH"
+
+    else:
+        print("Invalid input")
         
     account_name=input("Enter the name of the user")
     # event variable har iteration me new dictionary ko point karta hai
@@ -28,7 +33,8 @@ def add_event():
     event={
         "user":account_name,
         "name":name,
-        "severity":severity
+        "severity":severity,
+        "timestamp":datetime.now()
     }
 
     events.append(event)
@@ -67,32 +73,30 @@ def severity_filter_view():
     return high_s
 
 def freq_tracker():
-    lf_count=0
-    u_count=0
-    fd_count=0
+    event_count={
+        
+    }
+    #you need to make it scalable
     #whenever you make list , ask will you need items of it in future or just count
     #if you need count simply use counter,don't waste memory
     #Store only what you need
-
-
-    #event is a pointer reffering to current dictionary,in every iteration it points to new object
+    #outside loop ->storage structure initialize
+    #inside loop-> process data
+    #event is a pointer refering to current dictionary,in every iteration it points to new object
     for current_event in events:
         event_name = current_event["name"]
-        if event_name=="Login_failed":
-            lf_count+=1
+        #To access a dictionary value, you must provide the key.
+        if event_name in event_count:
+            event_count[event_name]+=1
+            #if in [] string is written within quotes then it means key name is "string"
+            #without quotes it uses variable as key
+                     
+        else:
+            #create new key-value pair,as key doesnt exist in event count
+            event_count[event_name]=1
+            #update value
             
-        elif event_name=="USB_connected":
-            u_count+=1
-            
-        elif event_name=="Files_deleted":
-            fd_count+=1
-            
-
-    print("Login_failed",lf_count)
-    print("USB_connected",u_count)
-    print("Files_deleted",fd_count)
-
-              
+    return event_count
 
 def show_menu():
         #Menu systems are loops Not functions.
