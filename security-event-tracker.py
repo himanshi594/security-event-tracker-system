@@ -57,14 +57,15 @@ def search_user():
             print(event["name"]+"\n"+event["severity"])
 
 def sus_activity():
-    n="Login_failed"
-    c=0
+    sus={}
     for event in events:
-        if n in event["name"]:
-            c+=1
-        
-    if c>5:
-        print("WARNING!!!")
+        event_name=event["name"]
+        if event_name in sus:
+            sus[event_name]+=1
+        else:
+            sus[event_name]=1
+    return sus
+
 # structure is better in complex
 #one function = one job
 #If I can understand whole logic in 10–15 lines → don’t split
@@ -75,18 +76,13 @@ def severity_filter_view():
     for event in events:
         if event["severity"]=="HIGH":
             high_s.append(event)
-    result=severity_filter_view()
+        result=severity_filter_view()
     #returned value needs to be stored,which can be used outside the fn too
     return high_s
 #return has nothing to with parameters
 
-
-
 def freq_tracker():
-    event_count={
-        
-    }
-  
+    event_count={}
     #whenever you make list , ask will you need items of it in future or just count
     #if you need count simply use counter,don't waste memory
     #Store only what you need
@@ -95,7 +91,7 @@ def freq_tracker():
     #event is a pointer refering to current dictionary,in every iteration it points to new object
     for event in events:
         event_name = event["name"]
-        #To access a dictionary value, you must provide the key.
+        #To access a dictionary value, you must provide the key i.e name which will access it's value
         if event_name in event_count:
             event_count[event_name]+=1
             #if in [] string is written within quotes then it means key name is "string"
@@ -107,6 +103,8 @@ def freq_tracker():
             #update value
 
     print(event_count)
+
+
     
 def show_menu():
         #Menu systems are loops Not functions.
