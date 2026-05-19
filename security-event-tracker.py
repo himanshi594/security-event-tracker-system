@@ -60,10 +60,20 @@ def sus_activity():
     sus={}
     for event in events:
         event_name=event["name"]
+        severity=event["severity"]
+        
         if event_name in sus:
             sus[event_name]+=1
+            #dictionary is getting updated here(removing/append)
+            #so we cant use variable to store sus[event_name]
+            # if severity=="HIGH" and sus[event_name]>5:
+            #     print("High alert")
+                      
         else:
             sus[event_name]=1
+        count=sus[event_name]
+        if severity=="HIGH" and count>5: 
+            print("HIGH alert!!")  
     return sus
 
 # structure is better in complex
@@ -76,8 +86,6 @@ def severity_filter_view():
     for event in events:
         if event["severity"]=="HIGH":
             high_s.append(event)
-        result=severity_filter_view()
-    #returned value needs to be stored,which can be used outside the fn too
     return high_s
 #return has nothing to with parameters
 
@@ -103,6 +111,7 @@ def freq_tracker():
             #update value
 
     print(event_count)
+    return event_count
 
 
     
