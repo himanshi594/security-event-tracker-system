@@ -57,23 +57,22 @@ def search_user():
             print(event["name"]+"\n"+event["severity"])
 
 def sus_activity():
+    #this fn detects suspicious users on high severity events which will be later used in fn block_user
     sus={}
+
     for event in events:
-        event_name=event["name"]
-        severity=event["severity"]
-        
-        if event_name in sus:
-            sus[event_name]+=1
-            #dictionary is getting updated here(removing/append)
-            #so we cant use variable to store sus[event_name]
-            # if severity=="HIGH" and sus[event_name]>5:
-            #     print("High alert")
-                      
-        else:
-            sus[event_name]=1
-        count=sus[event_name]
-        if severity=="HIGH" and count>5: 
-            print("HIGH alert!!")  
+        user=event["user"]
+        #user is entity being monitored not event type
+        #admin:6 user:9
+        if event["severity"]=="HIGH":
+            if user in sus:
+                sus[user]+=1
+                #dictionary is getting updated here(removing/append)
+                #so we cant use variable to store sus[event_name]
+                        
+            else:
+                sus[user]=1
+ 
     return sus
 
 # structure is better in complex
@@ -83,9 +82,11 @@ def sus_activity():
 
 def severity_filter_view():
     high_s=[]
+
     for event in events:
         if event["severity"]=="HIGH":
             high_s.append(event)
+
     return high_s
 #return has nothing to with parameters
 
