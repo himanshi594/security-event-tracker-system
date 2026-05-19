@@ -20,7 +20,11 @@ def add_event():
         severity="HIGH"
         
     account_name=input("Enter the name of the user")
-    
+    # event variable har iteration me new dictionary ko point karta hai
+    # purani value overwrite ho jati hai
+    # hum multiple dictionaries create nahi kar rahe
+    # variables are references in the python,here event isnt dictionary but object reference of dictionary 
+
     event={
         "user":account_name,
         "name":name,
@@ -63,24 +67,30 @@ def severity_filter_view():
     return high_s
 
 def freq_tracker():
-    login_f=[]
-    usb=[]
-    files_del=[]
+    lf_count=0
+    u_count=0
+    fd_count=0
+    #whenever you make list , ask will you need items of it in future or just count
+    #if you need count simply use counter,don't waste memory
+    #Store only what you need
 
-    for event in events:
-        if event["name"]=="Login_failed":
-            login_f.append(event)
+
+    #event is a pointer reffering to current dictionary,in every iteration it points to new object
+    for current_event in events:
+        event_name = current_event["name"]
+        if event_name=="Login_failed":
+            lf_count+=1
             
-        elif event["name"]=="USB_connected":
-            usb.append(event)
-        elif event["name"]=="Files_deleted":
-            files_del.append(event)
+        elif event_name=="USB_connected":
+            u_count+=1
+            
+        elif event_name=="Files_deleted":
+            fd_count+=1
+            
 
-    result= {
-        "login failed":len(login_f),
-        "usb_connected":len(usb),
-        "files deleted":len(files_del)
-    }
+    print("Login_failed",lf_count)
+    print("USB_connected",u_count)
+    print("Files_deleted",fd_count)
 
               
 
