@@ -2,6 +2,8 @@ events=[]
 from datetime import datetime
 
 def add_event():
+    #Role of this fn:Data creation+storage
+    #This fn does not return data/mutate storage
     print("1.Login_failed")
     print("2.USB_connected")
     print("3.Files_deleted")
@@ -11,7 +13,6 @@ def add_event():
     if choice=="1":
         name="Login_failed"
         severity="HIGH"
-
 
     elif choice=="2":
         name="USB_connected"
@@ -23,6 +24,7 @@ def add_event():
 
     else:
         print("Invalid input")
+        return
         
     account_name=input("Enter the name of the user")
     # event variable har iteration me new dictionary ko point karta hai
@@ -40,10 +42,13 @@ def add_event():
     events.append(event)
 
 def show_events():
+    
     for event in events:
         print(event["user"] + "\n") 
         print(event["name"] + "\n") 
-        print(event["severity"] + "\n")   
+        print(event["severity"] + "\n")
+        print(event["timestamp"] + "\n")
+        
 
 def search_user():
     value=input("Enter the account user you want to search").lower()
@@ -60,7 +65,7 @@ def sus_activity():
         
     if c>5:
         print("WARNING!!!")
-# shortcut is better in small program , structure is better in complex
+# structure is better in complex
 #one function = one job
 #If I can understand whole logic in 10–15 lines → don’t split
 #If it starts feeling messy → then split
@@ -70,21 +75,26 @@ def severity_filter_view():
     for event in events:
         if event["severity"]=="HIGH":
             high_s.append(event)
+    result=severity_filter_view()
+    #returned value needs to be stored,which can be used outside the fn too
     return high_s
+#return has nothing to with parameters
+
+
 
 def freq_tracker():
     event_count={
         
     }
-    #you need to make it scalable
+  
     #whenever you make list , ask will you need items of it in future or just count
     #if you need count simply use counter,don't waste memory
     #Store only what you need
     #outside loop ->storage structure initialize
     #inside loop-> process data
     #event is a pointer refering to current dictionary,in every iteration it points to new object
-    for current_event in events:
-        event_name = current_event["name"]
+    for event in events:
+        event_name = event["name"]
         #To access a dictionary value, you must provide the key.
         if event_name in event_count:
             event_count[event_name]+=1
@@ -95,9 +105,9 @@ def freq_tracker():
             #create new key-value pair,as key doesnt exist in event count
             event_count[event_name]=1
             #update value
-            
-    return event_count
 
+    print(event_count)
+    
 def show_menu():
         #Menu systems are loops Not functions.
         while True:
