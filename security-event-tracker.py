@@ -122,7 +122,12 @@ def block_user():
             blocked_users.append(user)
         return blocked_users
 
-
+def save_logs_to_file():
+    with open("event.txt","a") as file:
+        for event in events:
+            line=event["user"]+":-"+event["name"] + "with severity:"+ event["severity"]+"at"+str(event["timestamp"])  +"\n"
+            file.write(line)
+        print("Saved")
         
 def show_menu():
         #Menu systems are loops Not functions.
