@@ -114,8 +114,16 @@ def freq_tracker():
     print(event_count)
     return event_count
 
+def block_user():
+    blocked_users=[]
+    suspicious=sus_activity()
+    for user,score in suspicious.items:
+        if score>5:
+            blocked_users.append(user)
+        return blocked_users
 
-    
+
+        
 def show_menu():
         #Menu systems are loops Not functions.
         while True:
